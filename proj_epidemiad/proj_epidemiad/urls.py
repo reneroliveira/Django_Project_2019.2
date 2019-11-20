@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
-    path('epid/', include('epid_graph.urls')),
+    path('', include('epid_graph.urls')),
     path('admin/', admin.site.urls),
 ]

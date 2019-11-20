@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'epid_graph'
-    #'bootstrap4',
+    'epid_graph',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
