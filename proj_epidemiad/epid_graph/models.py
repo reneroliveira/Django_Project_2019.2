@@ -42,7 +42,7 @@ class ep_modelform(ModelForm):
             alpha = float(data_alpha)
         except:
             raise ValidationError("Formataçao inválida para valor de alpha")
-        if beta <0 or beta >1:
+        if alpha <0 or alpha >1:
             raise ValidationError("Valor de Alpha fora do intervalo [0,1]")
         return data_alpha
 
@@ -66,9 +66,10 @@ class ep_modelform(ModelForm):
             else:
                 gama = float(data_gama)
         except:
-            raise ValidationError("Formatação Inválida para o valor de Gama")
-        if gama <0:
-            raise ValidationError("Valor de Gama deve ser positivo")
+            pass
+            #raise ValidationError("Formatação Inválida para o valor de Gama")
+        #if gama <0:
+         #   raise ValidationError("Valor de Gama deve ser positivo")
         return data_gama
 
     def clean_data_pop(self):
@@ -89,7 +90,7 @@ class ep_modelform(ModelForm):
     def clean_data_tf(self):
         data_tf = self.cleaned_data['data_tf']
         try:
-            tf=float(data_tf)
+            float(data_tf)
         except:
             raise ValidationError("Formataçao inválida para valores de tf")
 

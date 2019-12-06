@@ -8,7 +8,7 @@ try:
     import epidemiad
     language='D'
 except ImportError:
-    import epidemia
+    from . import epidemia
     language='Python'
 
 
@@ -69,11 +69,15 @@ def create_graph(model,col,alpha,beta,gama,N,I0,tf):
         model_SIRdem = epidemiad.SIR_Dem(N, alpha, beta, gama)
         model_SIRdem.initialize(N - I0, I0, 0)
         sim2_dlang = model_SIRdem.run(0, tf)
+    elif language == "Python" and model=='sir':
+        sim_dlang=epidemia.run_sir(N, tf, 1, *(beta, gama, I0, 20, False))
+
 
 
     if col == 'I':
         plot = figure(title="Sir_Model", x_axis_label='Tempo (dias)', y_axis_label='Y', plot_width=600, plot_height=400)
-        plot.line(sim_dlang[0], sim_dlang[2], line_width=2)
+        print(len(sim_dlang[0]))
+        plot.line(sim_dlang[0][0].tolist(), sim_dlang[0][2], line_width=2)
     '''else:
         plot = figure(title="Grafico de Barras", x_axis_label='X', y_axis_label='Y', plot_width=800, plot_height=400)
         plot.vbar(x=x, width=0.9, top=y, bottom=0)'''
