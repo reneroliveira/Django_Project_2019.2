@@ -6,17 +6,15 @@ from bokeh.embed import components
 
 try:
     import epidemiad
-
     language = 'D'
 except ImportError:
     from . import epidemia
-
     language = 'Python'
 
 
 def index(request):
     context = {'Models': {'SIR': 'sir', 'SIR_Dem': 'sir_dem'},
-               'Column': {'Susceptible': 'S', 'Infected': 'I', 'Recovered': 'R', 'All of them': 'ALL'},
+               'Column': {'Susceptible': 'S', 'Infected'},
                'script': "",
                'div': ""
                }
@@ -26,25 +24,19 @@ def index(request):
     elif request.method == 'POST':
         form = ep_modelform(request.POST)
         context['form'] = form
-        if True:
-            model = request.POST.get('ep_model', 'sir')
-            column = request.POST.get('column', 'I')
-            alpha = request.POST.get('data_alpha', [0.1])
-            beta = request.POST.get('data_beta', [0.17])
-            gama = request.POST.get('data_gama', ['1/21.'])
-            N = request.POST.get('data_pop', [15000])
-            I0 = request.POST.get('data_i0', [2])
-            tf = request.POST.get('data_tf', [365.0])
-            # g = Grafico(tipo=tipo, dadosx=x, dadosy=y)
-            # g.save()
-            script, div = create_graph(model, column, alpha, beta, gama, N, I0, tf)
-            context.update({'titulo': "Simulação",
-                            'script': script,
-                            'div': div
-                            })
-        else:
-            print(form.is_valid())
-            pass
+        model = request.POST.get('ep_model', 'sir')
+        column = request.POST.get('column', 'I')
+        alpha = request.POST.get('data_alpha', [0.1])
+        beta = request.POST.get('data_beta', [0.17])
+        gama = request.POST.get('data_gama', ['1/21.'])
+        N = request.POST.get('data_pop', [15000])
+        I0 = request.POST.get('data_i0', [2])
+        tf = request.POST.get('data_tf', [365.0])
+        script, div = create_graph(model, column, alpha, beta, gama, N, I0, tf)
+        context.update({'titulo': "Simulação",
+                        'script': script,
+                        'div': div
+                        })
 
     return render(request, 'home.html', context)
 
