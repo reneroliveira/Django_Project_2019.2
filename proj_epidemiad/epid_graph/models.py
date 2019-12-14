@@ -35,7 +35,7 @@ class ep_modelform(ModelForm):
             if letter == '/':
                 return True
         return False
-    def clean_data_alpha(self):
+    '''def clean_data_alpha(self):
         data_alpha = self.cleaned_data['data_alpha']
 
         try:
@@ -92,5 +92,5 @@ class ep_modelform(ModelForm):
         try:
             float(data_tf)
         except:
-            raise ValidationError("Formataçao inválida para valores de tf")
+            raise ValidationError("Formataçao inválida para valores de tf")'''
 

@@ -21,6 +21,20 @@ import mir.array.allocation;
 import mir.ndslice;
 import mir.ndslice.fuse;
 import pyd.pyd;
+import pyd.class_wrap;
+
+{ 
+    this()
+    {
+         
+    }
+
+    ~this()
+    {
+
+    }
+} 
+
 
 ///SIR model class.
 class SIR

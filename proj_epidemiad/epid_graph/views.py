@@ -15,7 +15,6 @@ except ImportError:
 
 
 def index(request):
-    # return HttpResponse("Hello, world. You're at the epid_graph index.")
     context = {'Models': {'SIR': 'sir', 'SIR_Dem': 'sir_dem'},
                'Column': {'Susceptible': 'S', 'Infected': 'I', 'Recovered': 'R', 'All of them': 'ALL'},
                'script': "",
@@ -32,7 +31,7 @@ def index(request):
             column = request.POST.get('column', 'I')
             alpha = request.POST.get('data_alpha', [0.1])
             beta = request.POST.get('data_beta', [0.17])
-            gama = request.POST.get('data_beta', ['1/21.'])
+            gama = request.POST.get('data_gama', ['1/21.'])
             N = request.POST.get('data_pop', [15000])
             I0 = request.POST.get('data_i0', [2])
             tf = request.POST.get('data_tf', [365.0])
@@ -62,9 +61,10 @@ def create_graph(model, col, alpha, beta, gama, N, I0, tf):
     N = int(N)
     I0 = int(I0)
     tf = float(tf)
-    print(type(beta), type(gama))
+    print(N,type(N), I0,type(I0),tf,type(tf))
     if language == 'D':
         if model == 'sir':
+            print(type(epidemiad.SIR(N, beta, gama)))
             SIR_model = epidemiad.SIR(N, beta, gama)
             SIR_model.initialize(N - I0, I0, 0)
             sim = SIR_model.run(0, tf)
@@ -85,12 +85,12 @@ def create_graph(model, col, alpha, beta, gama, N, I0, tf):
             if col == "I":
                 plot = figure(title="Modelo SIR_DEM", x_axis_label='Tempo (dias)', y_axis_label='Infectados',
                               plot_width=600,
-                              plot_height=400)
+                              plot_height=400/3)
                 plot.line(sim[0], sim[2], line_width=2)
             elif col == "S":
                 plot = figure(title="Modelo SIR_DEM", x_axis_label='Tempo (dias)', y_axis_label='Sucetíveis',
                               plot_width=600,
-                              plot_height=400)
+                              plot_height=400/3)
                 plot.line(sim[0], sim[1], line_width=2)
     elif language == "Python" and model == 'sir':
         sim = epidemia.run_sir(N, tf, *(beta, gama, I0))
@@ -104,15 +104,7 @@ def create_graph(model, col, alpha, beta, gama, N, I0, tf):
                           plot_height=400)
             plot.line(sim[0].T[0], sim[0].T[1], line_width=2)
 
-
-    '''else:
-        plot = figure(title="Grafico de Barras", x_axis_label='X', y_axis_label='Y', plot_width=800, plot_height=400)
-        plot.vbar(x=x, width=0.9, top=y, bottom=0)'''
-
     script, div = components(plot)
     return script, div
 
 
-'''class GraficoView(generic.ListView):
-    template_name = 'grafico_list.html'
-    context_object_name = 'lista_de_graficos'''
