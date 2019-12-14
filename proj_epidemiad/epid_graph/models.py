@@ -5,14 +5,14 @@ from django.forms import ModelForm, ValidationError
 # Create your models here.
 
 class Graph(models.Model):
-    ep_model = models.CharField(max_length=50, choices=[('sir','SIR model'),('sir_dem','SIR model with demography')])
-    column = models.CharField(max_length=16,choices=[('S','Susceptible'),('I','Infected'),('R','Recovered'),('ALL','All of them')])
+    ep_model = models.CharField(max_length=50, choices=[('sir','SIR'),('sir_dem','SIR_DEM')])
+    column = models.CharField(max_length=16,choices=[('S','Suscetíveis'),('I','Infecciosos')])#,('R','Recovered'),('ALL','All of them')])
     data_alpha = models.DecimalField(max_digits=4,decimal_places=2)
     data_beta = models.DecimalField(max_digits=3,decimal_places=2)
     data_gama = models.CharField(max_length=200,null=False)
     data_pop = models.PositiveIntegerField() #valor de N
     data_i0 = models.PositiveIntegerField()
-    data_tf= models.DecimalField(max_digits=5,decimal_places=1)
+    data_tf= models.CharField(max_length=5,null=False)
 
 class ep_modelform(ModelForm):
 
