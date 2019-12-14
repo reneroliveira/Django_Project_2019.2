@@ -7,12 +7,12 @@ from django.forms import ModelForm, ValidationError
 class Graph(models.Model):
     ep_model = models.CharField(max_length=50, choices=[('sir','SIR model'),('sir_dem','SIR model with demography')])
     column = models.CharField(max_length=16,choices=[('S','Susceptible'),('I','Infected'),('R','Recovered'),('ALL','All of them')])
-    data_alpha = models.DecimalField(max_digits=12,decimal_places=10)
-    data_beta = models.DecimalField(max_digits=11,decimal_places=10)
+    data_alpha = models.DecimalField(max_digits=4,decimal_places=2)
+    data_beta = models.DecimalField(max_digits=3,decimal_places=2)
     data_gama = models.CharField(max_length=200,null=False)
     data_pop = models.PositiveIntegerField() #valor de N
     data_i0 = models.PositiveIntegerField()
-    data_tf= models.DecimalField(max_digits=21,decimal_places=15)
+    data_tf= models.DecimalField(max_digits=5,decimal_places=1)
 
 class ep_modelform(ModelForm):
 
@@ -21,7 +21,7 @@ class ep_modelform(ModelForm):
         fields = ['ep_model', 'column','data_alpha', 'data_beta','data_gama','data_pop','data_i0','data_tf']
         labels = {
             'ep_model': 'Modelo',
-            'column': 'Column',
+            'column': 'Coluna',
             'data_alpha': "Parâmetro Alpha (apenas para modelo SIR_Dem)",
             'data_beta': "Parâmetro Beta",
             'data_gama': "Parâmetro Gama",
