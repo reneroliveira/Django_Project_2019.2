@@ -2,8 +2,7 @@ import numpy as np
 from scipy.integrate import odeint
 from numpy.random import rand, gamma, exponential, poisson
 import pylab as P
-
-
+#código modificado para melhor implementação de views.py
 
 def run_sir(N, tf, *pars):
     """
@@ -15,7 +14,7 @@ def run_sir(N, tf, *pars):
     :param nsims:  Numero de simulações
     :param pars: parametros
     """
-    beta, gam, I0  = pars
+    beta, gam, I0 = pars
     betat = lambda t: beta + (0.5 * beta) * np.cos((2 * np.pi * t) / 365.)
 
     t = [0]
@@ -42,7 +41,7 @@ def run_sir(N, tf, *pars):
             # print('removal')
             t.append(t[-1] + exponential(1 / R))  # -np.log(rand())/R)
     sims = (np.array([t, S, I]).T, np.array(t), dts)
-    #P.plot(t, I, label='$O_t^{}$'.format(k + 1), drawstyle='steps-post')
+    # P.plot(t, I, label='$O_t^{}$'.format(k + 1), drawstyle='steps-post')
     return sims
 
 
@@ -56,8 +55,8 @@ if __name__ == "__main__":
     tf = 365
     ts = np.arange(tf)
     nsims = 5
-    x=run_sir(N, tf, *(beta, gam, I0))
-    #P.plot(x[0][0], x[0][2], label='Infected', drawstyle='steps-post')
+    x = run_sir(N, tf, *(beta, gam, I0))
+    # P.plot(x[0][0], x[0][2], label='Infected', drawstyle='steps-post')
     print(x[0])
     # P.legend(loc=0)
     # P.xlabel("t (dias)")

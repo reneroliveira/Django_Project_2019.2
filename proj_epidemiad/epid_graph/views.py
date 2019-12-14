@@ -6,15 +6,15 @@ from bokeh.embed import components
 
 try:
     import epidemiad
-    language = 'D'
 except ImportError:
-    from . import epidemia
-    language = 'Python'
+    pass
+from . import epidemia
 
 
 def index(request):
-    context = {'Models': {'SIR': 'sir', 'SIR_Dem': 'sir_dem'},
-               'Column': {'Susceptible': 'S', 'Infected'},
+    context = {'language': {'Python': 'Python', 'D': 'D'},
+               'Models': {'SIR': 'sir', 'SIR_Dem': 'sir_dem'},
+               'Column': {'Susceptible': 'S', 'Infected': 'I'},
                'script': "",
                'div': ""
                }
@@ -24,6 +24,7 @@ def index(request):
     elif request.method == 'POST':
         form = ep_modelform(request.POST)
         context['form'] = form
+        language = request.POST.get('language', 'Python')
         model = request.POST.get('ep_model', 'sir')
         column = request.POST.get('column', 'I')
         alpha = request.POST.get('data_alpha', [0.1])
@@ -32,7 +33,7 @@ def index(request):
         N = request.POST.get('data_pop', [15000])
         I0 = request.POST.get('data_i0', [2])
         tf = request.POST.get('data_tf', [365.0])
-        script, div = create_graph(model, column, alpha, beta, gama, N, I0, tf)
+        script, div = create_graph(language, model, column, alpha, beta, gama, N, I0, tf)
         context.update({'titulo': "Simulação",
                         'script': script,
                         'div': div
@@ -41,7 +42,7 @@ def index(request):
     return render(request, 'home.html', context)
 
 
-def create_graph(model, col, alpha, beta, gama, N, I0, tf):
+def create_graph(language, model, col, alpha, beta, gama, N, I0, tf):
     alpha = float(alpha)
     beta = float(beta)
     if ep_modelform.exists_slash(gama):
@@ -53,7 +54,7 @@ def create_graph(model, col, alpha, beta, gama, N, I0, tf):
     N = int(N)
     I0 = int(I0)
     tf = float(tf)
-    print(N,type(N), I0,type(I0),tf,type(tf))
+    print(N, type(N), I0, type(I0), tf, type(tf))
     if language == 'D':
         if model == 'sir':
             print(type(epidemiad.SIR(N, beta, gama)))
@@ -77,12 +78,12 @@ def create_graph(model, col, alpha, beta, gama, N, I0, tf):
             if col == "I":
                 plot = figure(title="Modelo SIR_DEM", x_axis_label='Tempo (dias)', y_axis_label='Infectados',
                               plot_width=600,
-                              plot_height=400/3)
+                              plot_height=400 / 3)
                 plot.line(sim[0], sim[2], line_width=2)
             elif col == "S":
                 plot = figure(title="Modelo SIR_DEM", x_axis_label='Tempo (dias)', y_axis_label='Sucetíveis',
                               plot_width=600,
-                              plot_height=400/3)
+                              plot_height=400 / 3)
                 plot.line(sim[0], sim[1], line_width=2)
     elif language == "Python" and model == 'sir':
         sim = epidemia.run_sir(N, tf, *(beta, gama, I0))
@@ -98,5 +99,3 @@ def create_graph(model, col, alpha, beta, gama, N, I0, tf):
 
     script, div = components(plot)
     return script, div
-
-
