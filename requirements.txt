@@ -2,3 +2,4 @@ gunicorn
 numpy
 scipy
 django-heroku
+django-bootstrap4
