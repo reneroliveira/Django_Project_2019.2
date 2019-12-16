@@ -2,4 +2,3 @@ gunicorn
 numpy
 scipy
 django-heroku
-os
