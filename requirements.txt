@@ -2,3 +2,5 @@ gunicorn
 numpy
 scipy
 pylab
+django_heroku
+os

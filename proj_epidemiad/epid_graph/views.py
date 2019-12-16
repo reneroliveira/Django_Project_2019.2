@@ -19,7 +19,7 @@ def index(request):
                'div': ""
                }
     if request.method == 'GET':
-        context['titulo'] = "Escolha seu modelo"
+        context['titulo'] = "Escolha o Modelo e a Simulação"
         context['form'] = ep_modelform()
     elif request.method == 'POST':
         form = ep_modelform(request.POST)
