@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.integrate import odeint
 from numpy.random import rand, gamma, exponential, poisson
-import pylab as P
+#import pylab as P
 #código modificado para melhor implementação de views.py
 
 def run_sir(N, tf, *pars):
