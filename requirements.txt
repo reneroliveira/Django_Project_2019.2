@@ -1,5 +1,5 @@
 gunicorn
 numpy
 scipy
-django_heroku
+django-heroku
 os
